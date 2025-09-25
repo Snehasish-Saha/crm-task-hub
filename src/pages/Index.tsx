@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Sidebar } from "@/components/layout/sidebar";
 import { Header } from "@/components/layout/header";
 import { DashboardOverview } from "@/components/dashboard/dashboard-overview";
+import { DashboardDetailView } from "@/components/dashboard/dashboard-detail-view";
 import { TaskStats } from "@/components/tasks/task-stats";
 import { TaskList } from "@/components/tasks/task-list";
 
@@ -43,6 +44,10 @@ const Index = () => {
   ];
 
   const renderContent = () => {
+    if (activeTab === "dashboard-details") {
+      return <DashboardDetailView onBack={() => setActiveTab("dashboard")} />;
+    }
+    
     switch (activeTab) {
       case "dashboard":
         return <DashboardOverview onNavigate={setActiveTab} />;
@@ -113,6 +118,11 @@ const Index = () => {
         return <DashboardOverview onNavigate={setActiveTab} />;
     }
   };
+
+  // Don't render main layout for dashboard details - it has its own layout
+  if (activeTab === "dashboard-details") {
+    return renderContent();
+  }
 
   return (
     <div className="min-h-screen bg-background flex dark">
